@@ -142,7 +142,7 @@ if __name__ == "__main__":
     
     #Next, determine the performance on the training and test sets:
     m=1
-    p_hat=0.5
+    p_hat=0.35
     performance=0
     for i in range (0,len(real_train_lines)):
         result=naive_bayes_istrue(real_train_lines[i], real_train,fake_train,counts['real_train'], counts['fake_train'],m,p_hat)
