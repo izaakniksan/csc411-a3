@@ -95,6 +95,8 @@ if __name__ == "__main__":
     with open('fake_test_lines.pickle', 'rb') as handle:
         fake_test_lines = pickle.load(handle)
         
+        
+    '''
     #First, tune the hyperparameters:
     performance=0
     optimal_m=0
@@ -117,8 +119,10 @@ if __name__ == "__main__":
                 max_performance=performance
                 optimal_m=m
                 optimal_p_hat=p_hat
-    
+    '''
     #Next, determine the performance on the training and test sets:
+    #optimal_m=1
+    #optimal_p_hat=0.35
     m=1
     p_hat=0.35
     performance=0
@@ -142,15 +146,3 @@ if __name__ == "__main__":
         if result==False:
             performance+=1
     test_performance=performance/(len(real_test_lines)+len(fake_test_lines))
-    
-    performance=0
-    for i in range (0,len(real_val_lines)):
-        result=naive_bayes_istrue(real_val_lines[i], real_train,fake_train,counts['real_train'], counts['fake_train'],m,p_hat)
-        if result==True:
-            performance+=1
-    for i in range(0,len(fake_val_lines)):
-        result=naive_bayes_istrue(fake_val_lines[i], real_train,fake_train,counts['real_train'], counts['fake_train'],m,p_hat)
-        if result==False:
-            performance+=1
-            
-   
