@@ -1,11 +1,341 @@
-import csv
-import nltk
-import os
-import random
-import collections
-import pickle
-from math import *
-import part2.py as p2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Programming/Coding Assignment
+% LaTeX Template
+%
+% This template has been downloaded from:
+% http://www.latextemplates.com
+%
+% Original author:
+% Ted Pavlic (http://www.tedpavlic.com)
+%
+% Note:
+% The \lipsum[#] commands throughout this template generate dummy text
+% to fill the template out. These commands should all be removed when 
+% writing assignment content.
+%
+% This template uses a Perl script as an example snippet of code, most other
+% languages are also usable. Configure them in the "CODE INCLUSION 
+% CONFIGURATION" section.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-if __name__ == "__main__":
-    p2.import_all_pickles()   
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage[usenames,dvipsnames]{color} % Required for custom colors
+\usepackage{graphicx} % Required to insert images
+\usepackage{subcaption}
+\usepackage{listings} % Required for insertion of code
+\usepackage{courier} % Required for the courier font
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+\graphicspath{ {latex_images/} }
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName} % Top left header
+\chead{\hmwkClass\ (\hmwkClassTime): \hmwkTitle} % Top center head
+%\rhead{\firstxmark} % Top right header
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ of\ \protect\pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+%%%%% HUSHAMS SETTINGS %%%%%
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{indentfirst}
+\usepackage{listings}
+
+\usepackage[tx]{sfmath}
+\renewcommand\familydefault{\sfdefault}
+\usepackage{tgheros}
+
+\usepackage{amsmath,amssymb,amsthm,textcomp}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{tikz}
+
+\usepackage{geometry}
+\geometry{total={210mm,297mm},
+left=25mm,right=25mm,%
+bindingoffset=0mm, top=20mm,bottom=20mm}
+
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+
+\linespread{1.3}
+
+\newcommand{\linia}{\rule{\linewidth}{0.5pt}}
+
+% custom theorems if needed
+\newtheoremstyle{mytheor}
+    {1ex}{1ex}{\normalfont}{0pt}{\scshape}{.}{1ex}
+    {{\thmname{#1 }}{\thmnumber{#2}}{\thmnote{ (#3)}}}
+
+\theoremstyle{mytheor}
+\theoremstyle{definition}
+\newtheorem{defi}{Definition}
+\newtheorem*{lemma}{Lemma}
+\newtheorem*{prf}{Proof}
+
+% my own titles
+\makeatletter
+\renewcommand{\maketitle}{
+\begin{center}
+\vspace{2ex}
+{\huge \textsc{\@title}}
+\vspace{1ex}
+\\
+\linia\\
+\@author \hfill \@date
+\vspace{4ex}
+\end{center}
+}
+\makeatother
+%%%
+
+% custom footers and headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{}
+\lfoot{Assignment \textnumero{} 2}
+\cfoot{}
+\rfoot{Page \thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+%
+
+% all section titles centered and bolded
+\usepackage{sectsty}
+\allsectionsfont{\bfseries\large}
+%
+% add section label
+\renewcommand\thesection{Part~\arabic{section}:}
+%
+%%%%%%%%
+
+% Creates a new command to include a perl script, the first parameter is the filename of the script (without .pl), the second parameter is the caption
+\newcommand{\perlscript}[2]{
+\begin{itemize}
+\item[]\lstinputlisting[caption=#2,label=#1]{#1.pl}
+\end{itemize}
+}
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT STRUCTURE COMMANDS
+%	Skip this unless you know what you're doing
+%----------------------------------------------------------------------------------------
+
+% Header and footer for when a page split occurs within a problem environment
+\newcommand{\enterProblemHeader}[1]{
+%\nobreak\extramarks{#1}{#1 continued on next page\ldots}\nobreak
+%\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
+}
+
+% Header and footer for when a page split occurs between problem environments
+\newcommand{\exitProblemHeader}[1]{
+%\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
+%\nobreak\extramarks{#1}{}\nobreak
+}
+
+\setcounter{secnumdepth}{0} % Removes default section numbers
+\newcounter{homeworkProblemCounter} % Creates a counter to keep track of the number of problems
+\setcounter{homeworkProblemCounter}{-1}
+
+\newcommand{\homeworkProblemName}{}
+\newenvironment{homeworkProblem}[1][Problem \arabic{homeworkProblemCounter}]{ % Makes a new environment called homeworkProblem which takes 1 argument (custom name) but the default is "Problem #"
+\stepcounter{homeworkProblemCounter} % Increase counter for number of problems
+\renewcommand{\homeworkProblemName}{#1} % Assign \homeworkProblemName the name of the problem
+\section{\homeworkProblemName} % Make a section in the document with the custom problem count
+\enterProblemHeader{\homeworkProblemName} % Header and footer within the environment
+}{
+\exitProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+
+\newcommand{\problemAnswer}[1]{ % Defines the problem answer command with the content as the only argument
+\noindent\framebox[\columnwidth][c]{\begin{minipage}{0.98\columnwidth}#1\end{minipage}} % Makes the box around the problem answer and puts the content inside
+}
+
+\newcommand{\homeworkSectionName}{}
+\newenvironment{homeworkSection}[1]{ % New environment for sections within homework problems, takes 1 argument - the name of the section
+\renewcommand{\homeworkSectionName}{#1} % Assign \homeworkSectionName to the name of the section from the environment argument
+\subsection{\homeworkSectionName} % Make a subsection with the custom name of the subsection
+\enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]} % Header and footer within the environment
+}{
+\enterProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+
+%----------------------------------------------------------------------------------------
+%	NAME AND CLASS SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\hmwkTitle}{Project\ \#3} % Assignment title
+\newcommand{\hmwkDueDate}{Monday,\ March\ 19,\ 2018} % Due date
+\newcommand{\hmwkClass}{CSC411} % Course/class
+\newcommand{\hmwkClassTime}{Thursday 6-9 pm} % Class/lecture time
+\newcommand{\hmwkAuthorName}{Izaak Niksan and Husham Hassan} % Your name
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}
+\vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{} % Insert date here if you want it to appear below your name
+
+%----------------------------------------------------------------------------------------
+
+\begin{document} \maketitle \clearpage
+
+\textbf{Part 1)}\\
+Upon first glance, one striking difference between the datasets is that the real articles appear to have significantly longer headlines on average. In terms of words that seem to appear more frequently in a specific dataset, the words \textit{hillary}, \textit{russia}, and \textit{victory} immediately stick out. The word \textit{hillary} appears 150 times in fake articles but only 24 times in real articles. The word \textit{russia} appears 45 times in fake articles and 77 times in real articles. The word \textit{victory} appears 48 times in fake articles and 25 times in real articles.\\\\
+\textbf{Part 2)}\\
+First, the data was separated into different sets by running the \textit{splitting\_datasets.py} script. This script parses the provided fake and real headlines and dumps various dictionaries into pickle files for easy access in future parts. The training set comprises 70\% of the headlines, the validation set 15\%, and the test set 15\%. These dictionaries contain words as keys, and the number of times each word appears as values.\\
+
+In \textit{part2.py}, the Naive Bayes classifier was implemented. The code for the function is seen below. As noted in the project handout, it is undesirable to multiply many small floating point values together since approximations in their digital representations eventually lead to very inaccurate results. Instead, when implementing the classifier, a sum of logs was used instead. More specifically, when evaluating $$P(C|headline)=\frac{P(headline|C)P(C)}{P(headline)}=\frac{P(headline)\Pi_{i}P(word_i|C)}{P(headline)},$$ instead of explicitly computing the term on the right, since the end goal was to determine which of $P(fake|headline)$ or $P(real|headline)$ was larger, it was sufficient to maximize the term on the right. Thus, since exponential functions are strictly increasing or decreasing and the term in the denominator is a constant, the term on the right was replaced with 
+$log(P(headline))+\sum_{i}log(P(word_i|C))$.\\
+
+One additional note is that, as described in the the lecture slides, "virtual examples" were added to the training set to avoid the case where the count of a word is 0. This was done by including two hyperparameters: $m$ and $p\_hat$. Using these, $P(word_i|C)$ was computed as follows:
+$$P(word_i|C)=\frac{count(word_i,C) + m*p\_hat}{count(C)+m} $$ if $word_i$ appears in the headline, and otherwise as
+$$P(word_i|C)=1-\frac{count(word_i,C) + m*p\_hat}{count(C)+m} $$
+The ideal values for $m$ and $p\_hat$ were determined to be 1 and 0.35 respectively. They were optimized using the validation set; m was varied through integer values between 1 and 10, and p\_hat was varied through multiples of 0.05 between 0.05 and 1. The code for this optimization is also found in \textit{part2.py}.\\
+
+The performance of the classifier on the training set and test set were 96.4\% and 84.9\% respectively.\\
+\begin{lstlisting}[language=Python, caption=Naive Bayes Classifier]
+def naive_bayes_istrue(headline,real,fake,real_count,fake_count,m,p_hat):
+    '''
+    Inputs:
+        headline:    New headline which will be classified as real or fake. It 
+                     is assumed that the headline is already cleanly processed.
+        real:        Dictionary with keys as words which appear in real  
+                     headlines and values as the number of times the words 
+                     appear.
+        fake:        Same type of dictionary but for fake headlines.
+        real_count:  Number of real headlines.
+        fake_count:  Number of fake headlines.
+        m:           Number of virtual examples added to the sets.
+        p_hat:       Prior probability. 
+        
+    Output:
+        Boolean value, with true being true and false being fake
+    '''
+    
+    line=headline
+    line=line.rstrip('\n')
+    temp=line.split(' ') # words contains all the words in the headline
+    
+    #remove any duplicated words in the headline:
+    words=[]
+    [words.append(item) for item in temp if item not in words]
+
+    preal=real_count/(real_count+fake_count) #p(real)
+    pfake=fake_count/(real_count+fake_count) #p(fake)
+    real_prob=0 #Probability that headline is real
+    fake_prob=0 #Probability that headline is fake
+    
+    #First calculate the probability that headline is real
+    for key in real:
+        if key in words:
+            real_prob+=log((real[key] + m*p_hat)/(real_count+m))
+        else:
+            real_prob+=log(1-(real[key] + m*p_hat)/(real_count+m))
+    real_prob+=log(preal)
+    
+    #Now calculate the probability that headline is fake
+    for key in fake:
+        if key in words:
+            fake_prob+=log((fake[key]+m*p_hat)/(fake_count+m))
+        else:
+            fake_prob+=log(1-(fake[key]+m*p_hat)/(fake_count+m))
+    
+    fake_prob+=log(pfake)
+
+    #At this point, we have been summing the log probabilities. We could 
+    #exponentiate then divide by the normalization factor to get the actual
+    #probabilites, but instead we just return the larger of the two values 
+    #since we only care about relative sizes.
+    
+    if fake_prob>real_prob:
+        return False
+    else:
+        return True
+\end{lstlisting}
+\newpage
+\textbf{Part 3)}\\
+\textit{a)} The presence of words which appear most frequently in real headlines contribute most towards predicting that the headline is real. Conversely, the absence of words which appear least frequently in real headlines contribute most towards predicting that he headline is real. The same logic applies to fake headlines.\\
+
+The basis for this is the conditional probability formula, specifically the term in the numerator of Baye's Rule:
+$$P(headline|C)=\Pi_{i}P(word_i|C)$$
+For a given class, if the word appears in the headline then the factor in the multiplication corresponding to this word is calculated as the ratio of the number of times this word appears in headlines of this class to the number of total headlines of this class. Maximizing this ratio makes a larger contribution to increasing the overall probability. Similarly, if the word does not appear in the headline, the term instead becomes this same ratio, but subtracted from 1. Therefore, minimizing the ratio will lead to increasing the overall probability.\\
+
+The 10 words whose presence most strongly predicts that the news is real are: \textit{trump, donald, to, us, in, trumps, on, of, says,} and \textit{for}.\\
+
+The 10 words whose absence most strongly predicts that the news is real are: \textit{truths, pedo, ring, guerrilla, economist, avoid, scissors, ribbon, c,} and \textit{hypocrisy}.\\
+
+The 10 words whose presence most strongly predicts that the news is fake are: \textit{trump, to, the, donald, for, in, of, and, a,} and \textit{on}.\\
+
+The 10 words whose absence most strongly predicts that the news is fake are: \textit{avocado, grattan, date, jennett, backwards, jordan, vow, personnel, industrials,} and \textit{denuclearisation}.\\\\
+\textit{b)} \textit{It is assumed that this question is asking for the words whose presence most affects the probability}\\
+The 10 non-stopwords whose presence most strongly predicts that the news is real are: \textit{trump, donald, trumps, says, north, korea, election, clinton, ban,} and \textit{president}.\\
+The 10 non-stopwords whose presence most strongly predicts that the news is fake are: \textit{trump, donald, hillary, clinton, election, just, president, new, america,} and \textit{obama}.\\
+
+The explanation of why prevalence leads to increased probability is the same as what was described in part a).
+
+\textit{c)} It may make sense to remove stopwords since 
+\end{document}

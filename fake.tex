@@ -256,7 +256,7 @@ $$P(word_i|C)=\frac{count(word_i,C) + m*p\_hat}{count(C)+m} $$ if $word_i$ appea
 $$P(word_i|C)=1-\frac{count(word_i,C) + m*p\_hat}{count(C)+m} $$
 The ideal values for $m$ and $p\_hat$ were determined to be 1 and 0.35 respectively. They were optimized using the validation set; m was varied through integer values between 1 and 10, and p\_hat was varied through multiples of 0.05 between 0.05 and 1. The code for this optimization is also found in \textit{part2.py}.\\
 
-The performance of the classifier on the training set and test set were 95.6\% and 83.7\% respectively.\\
+The performance of the classifier on the training set and test set were 96.4\% and 84.9\% respectively.\\
 \begin{lstlisting}[language=Python, caption=Naive Bayes Classifier]
 def naive_bayes_istrue(headline,real,fake,real_count,fake_count,m,p_hat):
     '''
@@ -316,4 +316,20 @@ def naive_bayes_istrue(headline,real,fake,real_count,fake_count,m,p_hat):
     else:
         return True
 \end{lstlisting}
+\newpage
+\textbf{Part 3)}\\
+\textit{a)} The presence of words which appear most frequently in real headlines contribute most towards predicting that the headline is real. Conversely, the absence of words which appear least frequently in real headlines contribute most towards predicting that he headline is real. The same logic applies to fake headlines.\\
+
+The basis for this is the conditional probability formula, specifically the term in the numerator of Baye's Rule:
+$$P(headline|C)=\Pi_{i}P(word_i|C)$$
+For a given class, if the word appears in the headline then the factor in the multiplication corresponding to this word is calculated as the ratio of the number of times this word appears in headlines of this class to the number of total headlines of this class. Maximizing this ratio makes a larger contribution to increasing the overall probability. Similarly, if the word does not appear in the headline, the term instead becomes this same ratio, but subtracted from 1. Therefore, minimizing the ratio will lead to increasing the overall probability.\\
+
+The 10 words whose presence most strongly predicts that the news is real are: \textit{trump, donald, to, us, in, trumps, on, of, says,} and \textit{for}.\\
+
+The 10 words whose absence most strongly predicts that the news is real are: \textit{truths, pedo, ring, guerrilla, economist, avoid, scissors, ribbon, c,} and \textit{hypocrisy}.\\
+
+The 10 words whose presence most strongly predicts that the news is fake are: \textit{trump, to, the, donald, for, in, of, and, a,} and \textit{on}.\\
+
+The 10 words whose absence most strongly predicts that the news is fake are: \textit{avocado, grattan, date, jennett, backwards, jordan, vow, personnel, industrials,} and \textit{denuclearisation}.\\\\
+\textit{b)} test
 \end{document}

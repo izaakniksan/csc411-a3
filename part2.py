@@ -9,53 +9,6 @@ from math import *
 This file implements naive bayes to determine whether an article is real or 
 fake. 
 '''
-def import_all_pickles():
-    '''
-    This functions opens all the pickle files and brings their contents into
-    the workspace
-    '''
-    global real_train
-    global real_val 
-    global real_test
-    global fake_train
-    global fake_val
-    global fake_test
-    global counts
-    global real_train_lines
-    global real_val_lines
-    global real_test_lines
-    global fake_train_lines
-    global fake_val_lines
-    global fake_test_lines
-    
-    with open('real_train.pickle', 'rb') as handle:
-        real_train = pickle.load(handle)  
-    with open('real_val.pickle', 'rb') as handle:
-        real_val = pickle.load(handle)   
-    with open('real_test.pickle', 'rb') as handle:
-        real_test = pickle.load(handle)
-    with open('fake_train.pickle', 'rb') as handle:
-        fake_train = pickle.load(handle)
-    with open('fake_val.pickle', 'rb') as handle:
-        fake_val = pickle.load(handle)
-    with open('fake_test.pickle', 'rb') as handle:
-        fake_test = pickle.load(handle)
-    with open('counts.pickle', 'rb') as handle:
-        counts = pickle.load(handle)
-    with open('real_train_lines.pickle', 'rb') as handle:
-        real_train_lines = pickle.load(handle)
-    with open('real_val_lines.pickle', 'rb') as handle:
-        real_val_lines = pickle.load(handle)
-    with open('real_test_lines.pickle', 'rb') as handle:
-        real_test_lines = pickle.load(handle)
-    with open('fake_train_lines.pickle', 'rb') as handle:
-        fake_train_lines = pickle.load(handle)
-    with open('fake_val_lines.pickle', 'rb') as handle:
-        fake_val_lines = pickle.load(handle)
-    with open('fake_test_lines.pickle', 'rb') as handle:
-        fake_test_lines = pickle.load(handle)
-    return
-
 def naive_bayes_istrue(headline,real,fake,real_count,fake_count,m,p_hat):
     '''
     Inputs:
@@ -115,8 +68,33 @@ def naive_bayes_istrue(headline,real,fake,real_count,fake_count,m,p_hat):
         return True
 
 if __name__ == "__main__":
-    import_all_pickles()   
-    
+    with open('real_train.pickle', 'rb') as handle:
+        real_train = pickle.load(handle)  
+    with open('real_val.pickle', 'rb') as handle:
+        real_val = pickle.load(handle)   
+    with open('real_test.pickle', 'rb') as handle:
+        real_test = pickle.load(handle)
+    with open('fake_train.pickle', 'rb') as handle:
+        fake_train = pickle.load(handle)
+    with open('fake_val.pickle', 'rb') as handle:
+        fake_val = pickle.load(handle)
+    with open('fake_test.pickle', 'rb') as handle:
+        fake_test = pickle.load(handle)
+    with open('counts.pickle', 'rb') as handle:
+        counts = pickle.load(handle)
+    with open('real_train_lines.pickle', 'rb') as handle:
+        real_train_lines = pickle.load(handle)
+    with open('real_val_lines.pickle', 'rb') as handle:
+        real_val_lines = pickle.load(handle)
+    with open('real_test_lines.pickle', 'rb') as handle:
+        real_test_lines = pickle.load(handle)
+    with open('fake_train_lines.pickle', 'rb') as handle:
+        fake_train_lines = pickle.load(handle)
+    with open('fake_val_lines.pickle', 'rb') as handle:
+        fake_val_lines = pickle.load(handle)
+    with open('fake_test_lines.pickle', 'rb') as handle:
+        fake_test_lines = pickle.load(handle)
+        
     #First, tune the hyperparameters:
     performance=0
     optimal_m=0
