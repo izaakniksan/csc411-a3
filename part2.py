@@ -81,16 +81,7 @@ def naive_bayes_istrue(headline,real,fake,real_count,fake_count,m,p_hat):
     #remove any duplicated words in the headline:
     words=[]
     [words.append(item) for item in temp if item not in words]
-    '''
-    #Create a list with all the possible words
-    tempwords=[]
-    for key in real:
-        tempwords.append(key)
-    for key in fake:
-        tempwords.append(key)
-    all_words=[]
-    [all_words.append(item) for item in tempwords if item not in words]
-    '''
+
     preal=real_count/(real_count+fake_count) #p(real)
     pfake=fake_count/(real_count+fake_count) #p(fake)
     real_prob=0 #Probability that headline is real
@@ -115,14 +106,10 @@ def naive_bayes_istrue(headline,real,fake,real_count,fake_count,m,p_hat):
 
     #At this point, we have been summing the log probabilities. We could 
     #exponentiate then divide by the normalization factor to get the actual
-    #probabilites, but instead we just want to take the magnitudes (since the
-    #sum of logs of small decimals will be a negative number) and return
-    #the larger of the two values.
+    #probabilites, but instead we just return the larger of the two values 
+    #since we only care about relative sizes.
     
-    real_prob=abs(real_prob)
-    fake_prob=abs(fake_prob)
-    
-    if fake_prob<real_prob:
+    if fake_prob>real_prob:
         return False
     else:
         return True
@@ -148,7 +135,7 @@ if __name__ == "__main__":
                 result=naive_bayes_istrue(fake_val_lines[i], real_train,fake_train,counts['real_train'], counts['fake_train'],m,p_hat)
                 if result==False:
                     performance+=1
-            if performance>=max_performance:
+            if performance>max_performance:
                 max_performance=performance
                 optimal_m=m
                 optimal_p_hat=p_hat

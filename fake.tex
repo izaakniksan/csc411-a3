@@ -246,5 +246,74 @@ bindingoffset=0mm, top=20mm,bottom=20mm}
 \textbf{Part 1)}\\
 Upon first glance, one striking difference between the datasets is that the real articles appear to have significantly longer headlines on average. In terms of words that seem to appear more frequently in a specific dataset, the words \textit{hillary}, \textit{russia}, and \textit{victory} immediately stick out. The word \textit{hillary} appears 150 times in fake articles but only 24 times in real articles. The word \textit{russia} appears 45 times in fake articles and 77 times in real articles. The word \textit{victory} appears 48 times in fake articles and 25 times in real articles.\\\\
 \textbf{Part 2)}\\
+First, the data was separated into different sets by running the \textit{splitting\_datasets.py} script. This script parses the provided fake and real headlines and dumps various dictionaries into pickle files for easy access in future parts. The training set comprises 70\% of the headlines, the validation set 15\%, and the test set 15\%. These dictionaries contain words as keys, and the number of times each word appears as values.\\
 
+In \textit{part2.py}, the Naive Bayes classifier was implemented. The code for the function is seen below. As noted in the project handout, it is undesirable to multiply many small floating point values together since approximations in their digital representations eventually lead to very inaccurate results. Instead, when implementing the classifier, a sum of logs was used instead. More specifically, when evaluating $$P(C|headline)=\frac{P(headline|C)P(C)}{P(headline)}=\frac{P(headline)\Pi_{i}P(word_i|C)}{P(headline)},$$ instead of explicitly computing the term on the right, since the end goal was to determine which of $P(fake|headline)$ or $P(real|headline)$ was larger, it was sufficient to maximize the term on the right. Thus, since exponential functions are strictly increasing or decreasing and the term in the denominator is a constant, the term on the right was replaced with 
+$log(P(headline))+\sum_{i}log(P(word_i|C))$.\\
+
+One additional note is that, as described in the the lecture slides, "virtual examples" were added to the training set to avoid the case where the count of a word is 0. This was done by including two hyperparameters: $m$ and $p\_hat$. Using these, $P(word_i|C)$ was computed as follows:
+$$P(word_i|C)=\frac{count(word_i,C) + m*p\_hat}{count(C)+m} $$ if $word_i$ appears in the headline, and otherwise as
+$$P(word_i|C)=1-\frac{count(word_i,C) + m*p\_hat}{count(C)+m} $$
+The ideal values for $m$ and $p\_hat$ were determined to be 1 and 0.35 respectively. They were optimized using the validation set; m was varied through integer values between 1 and 10, and p\_hat was varied through multiples of 0.05 between 0.05 and 1. The code for this optimization is also found in \textit{part2.py}.\\
+
+The performance of the classifier on the training set and test set were 95.6\% and 83.7\% respectively.\\
+\begin{lstlisting}[language=Python, caption=Naive Bayes Classifier]
+def naive_bayes_istrue(headline,real,fake,real_count,fake_count,m,p_hat):
+    '''
+    Inputs:
+        headline:    New headline which will be classified as real or fake. It 
+                     is assumed that the headline is already cleanly processed.
+        real:        Dictionary with keys as words which appear in real  
+                     headlines and values as the number of times the words 
+                     appear.
+        fake:        Same type of dictionary but for fake headlines.
+        real_count:  Number of real headlines.
+        fake_count:  Number of fake headlines.
+        m:           Number of virtual examples added to the sets.
+        p_hat:       Prior probability. 
+        
+    Output:
+        Boolean value, with true being true and false being fake
+    '''
+    
+    line=headline
+    line=line.rstrip('\n')
+    temp=line.split(' ') # words contains all the words in the headline
+    
+    #remove any duplicated words in the headline:
+    words=[]
+    [words.append(item) for item in temp if item not in words]
+
+    preal=real_count/(real_count+fake_count) #p(real)
+    pfake=fake_count/(real_count+fake_count) #p(fake)
+    real_prob=0 #Probability that headline is real
+    fake_prob=0 #Probability that headline is fake
+    
+    #First calculate the probability that headline is real
+    for key in real:
+        if key in words:
+            real_prob+=log((real[key] + m*p_hat)/(real_count+m))
+        else:
+            real_prob+=log(1-(real[key] + m*p_hat)/(real_count+m))
+    real_prob+=log(preal)
+    
+    #Now calculate the probability that headline is fake
+    for key in fake:
+        if key in words:
+            fake_prob+=log((fake[key]+m*p_hat)/(fake_count+m))
+        else:
+            fake_prob+=log(1-(fake[key]+m*p_hat)/(fake_count+m))
+    
+    fake_prob+=log(pfake)
+
+    #At this point, we have been summing the log probabilities. We could 
+    #exponentiate then divide by the normalization factor to get the actual
+    #probabilites, but instead we just return the larger of the two values 
+    #since we only care about relative sizes.
+    
+    if fake_prob>real_prob:
+        return False
+    else:
+        return True
+\end{lstlisting}
 \end{document}
