@@ -45,6 +45,8 @@ if __name__ == "__main__":
     with open('part_4_w.pickle', 'rb') as handle:
         w = pickle.load(handle)  
     
+    all_words=[]
+    [all_words.append(word) for word in real_train.keys()]
     #PART 6 a)
     #create theta array:
     theta=zeros((len(w)))
@@ -59,13 +61,14 @@ if __name__ == "__main__":
     
     ind = argpartition(theta, -10)[-10:]
     ind = ind[argsort(theta[ind])]
-    print('\nthe 10 largest values of theta are: ',sorted(theta)[-10:],'\n') 
+    ind=flip(ind,0)
+    print('\nthe 10 largest values of theta are: ',theta[ind],'\n') 
     print('the words corresponding to the 10 largest values are: ',[all_words[i] for i in ind],'\n')
     
     #find indices of smallest 10 elements
-    ind = argpartition(theta, 10)[-10:]
+    ind = argpartition(theta, 10)[:10]
     ind = ind[argsort(theta[ind])]
-    print('the 10 most negative values of theta are: ',sorted(theta)[:10],'\n')
+    print('the 10 most negative values of theta are: ',theta[ind],'\n')
     print('the words corresponding to the 10 most negative values are: ',[all_words[i] for i in ind],'\n')
     
     
@@ -88,13 +91,14 @@ if __name__ == "__main__":
     
     ind = argpartition(theta, -10)[-10:]
     ind = ind[argsort(theta[ind])]
-    print('\nthe 10 largest values of theta are: ',sorted(theta)[-10:],'\n') 
+    ind=flip(ind,0)
+    print('\nthe 10 largest values of theta are: ',theta[ind],'\n') 
     print('the words corresponding to the 10 largest values are: ',[words_nostop[i] for i in ind],'\n')
     
     #find indices of smallest 10 elements
-    ind = argpartition(theta, 10)[-10:]
+    ind = argpartition(theta, 10)[:10]
     ind = ind[argsort(theta[ind])]
-    print('the 10 most negative values of theta are: ',sorted(theta)[:10],'\n')
+    print('the 10 most negative values of theta are: ',theta[ind],'\n')
     print('the words corresponding to the 10 most negative values are: ',[words_nostop[i] for i in ind],'\n')
     print('*** part 6 finished ***\n')
         
