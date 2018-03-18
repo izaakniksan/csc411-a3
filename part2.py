@@ -35,6 +35,9 @@ def naive_bayes_istrue(headline,real,fake,real_count,fake_count,m,p_hat):
     words=[]
     [words.append(item) for item in temp if item not in words]
 
+    #remove any words in the headline which are not found in the training set:
+    [words.remove(word) for word in words if word not in real]
+    
     preal=real_count/(real_count+fake_count) #p(real)
     pfake=fake_count/(real_count+fake_count) #p(fake)
     real_prob=0 #Probability that headline is real
@@ -94,9 +97,7 @@ if __name__ == "__main__":
         fake_val_lines = pickle.load(handle)
     with open('fake_test_lines.pickle', 'rb') as handle:
         fake_test_lines = pickle.load(handle)
-        
-        
-    '''
+            
     #First, tune the hyperparameters:
     performance=0
     optimal_m=0
@@ -119,10 +120,11 @@ if __name__ == "__main__":
                 max_performance=performance
                 optimal_m=m
                 optimal_p_hat=p_hat
-    '''
+    
     #Next, determine the performance on the training and test sets:
     #optimal_m=1
     #optimal_p_hat=0.35
+    print('program running')
     m=1
     p_hat=0.35
     performance=0
@@ -146,3 +148,9 @@ if __name__ == "__main__":
         if result==False:
             performance+=1
     test_performance=performance/(len(real_test_lines)+len(fake_test_lines))
+    
+
+    
+    
+    
+    
