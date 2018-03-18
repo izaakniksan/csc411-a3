@@ -12,7 +12,7 @@ from numpy import *
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
 
-MAX_ITERS = 10000
+MAX_ITERS = 1100
 
 def create_v(set_words,all_words):
     '''
@@ -188,6 +188,7 @@ if __name__ == "__main__":
     [all_words.append(word) for word in real_train.keys()]
     
 #--------------------CREATE SETS,INPUTS,OUTPUTS-------------------------
+    print('creating network inputs')
     #First create trainingset
     trainingset=append(real_train_lines,fake_train_lines)
 
@@ -256,12 +257,15 @@ if __name__ == "__main__":
     
 #   w is nxj=nx2
     init_w=random.rand(len(all_words)+1,2)
+    print('running gradient descent')
     optimal_w,iteration_array,performance_array, val_performance_array = \
         grad_descent_curves(vector_grad,logcost, softmax, v_train, y_train, \
                             v_val,y_val,init_w, alpha,_lambda)
-    
+    print('gradient descent completed, saving weights as part_4_w.pickle')
+    with open('part_4_w.pickle', 'wb') as handle:
+        pickle.dump(optimal_w, handle, protocol=pickle.HIGHEST_PROTOCOL)
 #----------------------PLOT-----------------------
-    
+    print('plotting learning curves')
     plt.plot(iteration_array,performance_array, label='Training')
     plt.plot(iteration_array,val_performance_array,label='Validation')
     plt.ylabel('% Correctly Classified')

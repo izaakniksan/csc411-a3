@@ -281,12 +281,15 @@ As before, the headlines were cleaned up such that they became arrays of words, 
 
 For the gradient descent, alpha was 0.001, lambda was 0.8, and MAX\_ITERS was 10 000. As recommended on piazza, L2 regularization was used. It is noted that the value of lambda did not seem to significantly affect the performance. In order to tune lambda, the validation set was used. The lambda which led to the best classifier was chosen to be the optimal one. The optimizer started at lambda=0.1, ended at lambda=10, and increased by iterations of 0.1. Figure 1 displays the performance on the training and validation sets for lambda=10. Furthermore, the optimal alpha was higher than it was in the previous project.\\
 
-Finally, as seen in Figure 2, the performance on the validation set seemed to peak at 75\%. This value seemed unexpectedly low, although regardless of the parameters of the algorithm the performance could never increase past this mark.
+Finally, as seen in Figure 2, the performance on the validation set seemed to peak at 75\%. This value seemed unexpectedly low, although regardless of the parameters of the algorithm the performance could never increase past this mark. It is also noted that the performance on the validation set seems to decline slightly even though the performance on the training set seems to continue to increase. This should be taken into consideration for the issue of overfitting; it may be preferred to end the descent after around 1000 iterations. Figure 3 displays the learning curves for MAX\_ITERS=1100.
+
 \begin{center}
 \includegraphics[width=13cm, height=8cm]{latex_images/part4_lambda10.png} 
-\captionof{figure}{Learning Curves for a Logistic Regression Classifier on Training and Validation Sets. alpha=0.01, lambda=10}
+\captionof{figure}{Learning Curves for a Logistic Regression Classifier on Training and Validation Sets. alpha=0.001, lambda=10, MAX\_ITERS=10 000}
 \includegraphics[width=13cm, height=8cm]{latex_images/part4_learningcurve_withval.png} 
-\captionof{figure}{Learning Curves for a Logistic Regression Classifier on Training and Validation Sets. alpha=0.01, lambda=0.8}
+\captionof{figure}{Learning Curves for a Logistic Regression Classifier on Training and Validation Sets. alpha=0.001, lambda=0.8, MAX\_ITERS=10 000}
+\includegraphics[width=13cm, height=8cm]{latex_images/part4_learningcurve_withval_1100.png} 
+\captionof{figure}{Learning Curves for a Logistic Regression Classifier on Training and Validation Sets. alpha=0.001, lambda=0.8, MAX\_ITERS=1100}
 \end{center}
 \\
 \textbf{Part 5)}\\
@@ -310,10 +313,30 @@ $$(w_0^{(1)}-w_0^{(2)})+(w_1^{(1)}-w_1^{(2)})x_1+...+(w_k^{(1)}-w_k^{(2)})x_k=\t
 By observation, it is deduced that $\theta_j=(w_j^{(1)}-w_j^{(2)})$ and $I_j(x)=x_j$. This inequality must hold for classification as $y=1$, and must not hold for classification as $y=0$.\\
 
 \textit{Naive Bayes:}\\
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
 
 
+
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! FINISH THIS PART !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+
+
+
+
+
+
+
+
+
+\\\\
+\textbf{Part 6)}\\
 
 %----------------------------------------------------------------------------------------
 \end{document}
