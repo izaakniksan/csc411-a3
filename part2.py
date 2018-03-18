@@ -71,6 +71,7 @@ def naive_bayes_istrue(headline,real,fake,real_count,fake_count,m,p_hat):
         return True
 
 if __name__ == "__main__":
+    print('*** part 2 running ***')
     with open('real_train.pickle', 'rb') as handle:
         real_train = pickle.load(handle)  
     with open('real_val.pickle', 'rb') as handle:
@@ -97,15 +98,15 @@ if __name__ == "__main__":
         fake_val_lines = pickle.load(handle)
     with open('fake_test_lines.pickle', 'rb') as handle:
         fake_test_lines = pickle.load(handle)
-            
+    print('workspace imported')
     #First, tune the hyperparameters:
+    print('tuning hyperparameters')
     performance=0
     optimal_m=0
     optimal_p_hat=0
     max_performance=0
     for m in range (1,10):
         for j in range (5,100,5):
-            print(performance,max_performance,m,j)
             p_hat=j/100
             performance=0
             for i in range (0,len(real_val_lines)):
@@ -120,11 +121,13 @@ if __name__ == "__main__":
                 max_performance=performance
                 optimal_m=m
                 optimal_p_hat=p_hat
+            print('performance: ', performance,'max performance: ',max_performance, 'value of m: ',m,'value of p_hat: ',p_hat)
     
-    #Next, determine the performance on the training and test sets:
-    #optimal_m=1
-    #optimal_p_hat=0.35
-    print('program running')
+#    Next, determine the performance on the training and test sets:
+#    optimal_m=1
+#    optimal_p_hat=0.35
+    print('testing determined an optimal m and p_hat of 1 and 0.35')
+    print('determining performance on training and test sets:')
     m=1
     p_hat=0.35
     performance=0
@@ -137,7 +140,7 @@ if __name__ == "__main__":
         if result==False:
             performance+=1
     train_performance=performance/(len(real_train_lines)+len(fake_train_lines))
-    
+    print('train performance: ',train_performance)
     performance=0
     for i in range (0,len(real_test_lines)):
         result=naive_bayes_istrue(real_test_lines[i], real_train,fake_train,counts['real_train'], counts['fake_train'],m,p_hat)
@@ -148,6 +151,8 @@ if __name__ == "__main__":
         if result==False:
             performance+=1
     test_performance=performance/(len(real_test_lines)+len(fake_test_lines))
+    print('test performance: ', test_performance)
+    print('*** part 2 finished ***\n')
     
 
     

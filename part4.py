@@ -153,7 +153,7 @@ def grad_descent_curves(vector_grad,logcost, softmax,v, y, v_val,y_val, init_w, 
     return w,iteration_array,performance_array, val_performance_array
 
 if __name__ == "__main__":
-    print('Part 4 running...')
+    print('*** Part 4 running ***')
     
     with open('real_train.pickle', 'rb') as handle:
         real_train = pickle.load(handle)  
@@ -182,7 +182,6 @@ if __name__ == "__main__":
     with open('fake_test_lines.pickle', 'rb') as handle:
         fake_test_lines = pickle.load(handle)
 
-    print(clean_headline('hillary trump wtffffff',real_train))
     alpha=0.001
     _lambda=0.8
     all_words=[]
@@ -270,6 +269,6 @@ if __name__ == "__main__":
     plt.title('Gradient Descent Learning Curve')
     plt.legend()
             
-    print('...finished part4')
+    print('*** part 4 finished ***\n')
         
         

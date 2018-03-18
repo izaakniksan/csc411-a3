@@ -9,6 +9,7 @@ import part2 as p2
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 
 if __name__ == "__main__":
+    print('***** part 3 running *****')
     with open('real_train.pickle', 'rb') as handle:
         real_train = pickle.load(handle)  
     with open('real_val.pickle', 'rb') as handle:
@@ -72,3 +73,4 @@ if __name__ == "__main__":
                                       reverse=True)[:10]
     print('Disregarding stopwords, the most common words in fake emails are:',\
           ten_frequent_fake_nostop,'\n')
+    print('***** part 3 finished *****\n')
