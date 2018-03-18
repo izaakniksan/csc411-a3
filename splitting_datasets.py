@@ -6,6 +6,33 @@ import collections
 import pickle
 
 '''
+
+
+
+
+
+
+
+
+
+
+
+
+***** DO NOT RUN THIS OTHERWISE FUTURE RESULTS WILL BE INCONSISTENT!!!*****
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 This file splits the datasets up into training, validation, and test sets and
 counts the number of times each word appears, recording them in dictionaries.
 Then, these dictionaries are dumped to pickle files. The total number of 
