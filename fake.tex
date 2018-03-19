@@ -179,11 +179,11 @@
 \maketitle
 \clearpage
 \textbf{Part 1)}\\
-Upon first glance, one striking difference between the datasets is that the real articles appear to have significantly longer headlines on average. In terms of words that seem to appear more frequently in a specific dataset, the words \textit{hillary}, \textit{russia}, and \textit{victory} immediately stick out. The word \textit{hillary} appears 150 times in fake articles but only 24 times in real articles. The word \textit{russia} appears 45 times in fake articles and 77 times in real articles. The word \textit{victory} appears 48 times in fake articles and 25 times in real articles.\\\\
+Upon first glance, one striking difference between the datasets is that the real articles appear to have significantly longer headlines on average. In terms of words that seem to appear more frequently in a specific dataset, the words \textit{hillary}, \textit{russia}, and \textit{victory} immediately stick out. The word \textit{hillary} appears 150 times in fake articles but only 24 times in real articles. The word \textit{russia} appears 45 times in fake articles and 77 times in real articles. The word \textit{victory} appears 48 times in fake articles and 25 times in real articles. The stated goal of the project is likely feasible since some words appear more often in one type than the other.\\\\
 \textbf{Part 2)}\\
-First, the data was separated into different sets by running the \textit{splitting\_datasets.py} script. This script parses the provided fake and real headlines and dumps various dictionaries into pickle files for easy access in future parts. The training set comprises 70\% of the headlines, the validation set 15\%, and the test set 15\%. These dictionaries contain words as keys, and the number of times each word appears as values.\\
+First, the data was separated into different sets by running the \textit{splitting\_datasets.py} script. (For consistency, this was never run again. Thus, please do not run this script as the datasets will change since randomized splitting was employed.) This script parses the provided fake and real headlines and dumps various dictionaries into pickle files for easy access in future parts. The training set comprises 70\% of the headlines, the validation set 15\%, and the test set 15\%. These dictionaries contain words as keys, and the number of times each word appears as values.\\
 
-In \textit{part2.py}, the Naive Bayes classifier was implemented. The code for the function is seen below. As noted in the project handout, it is undesirable to multiply many small floating point values together since approximations in their digital representations eventually lead to very inaccurate results. Instead, when implementing the classifier, a sum of logs was used instead. More specifically, when evaluating $$P(C|headline)=\frac{P(headline|C)P(C)}{P(headline)}=\frac{P(C)\Pi_{i}P(word_i|C)}{P(headline)},$$ instead of explicitly computing the term on the right, since the end goal was to determine which of $P(fake|headline)$ or $P(real|headline)$ was larger, it was sufficient to maximize the term on the right. Thus, since exponential functions are strictly increasing or decreasing and the term in the denominator is a constant, the term on the right was replaced with 
+In \textit{part2.py}, the Naive Bayes classifier was implemented. The code for the function is seen in Listing 1. As noted in the project handout, it is undesirable to multiply many small floating point values together since approximations in their digital representations eventually lead to very inaccurate results. Instead, when implementing the classifier, a sum of logs was used instead. More specifically, when evaluating $$P(C|headline)=\frac{P(headline|C)P(C)}{P(headline)}=\frac{P(C)\Pi_{i}P(word_i|C)}{P(headline)},$$ instead of explicitly computing the term on the right, since the end goal was to determine which of $P(fake|headline)$ or $P(real|headline)$ was larger, it was sufficient to maximize the term on the right. Thus, since exponential functions are strictly increasing or decreasing and the term in the denominator is a constant, the term on the right was replaced with 
 $log(P(headline))+\sum_{i}log(P(word_i|C))$.\\
 
 One additional note is that, as described in the the lecture slides, "virtual examples" were added to the training set to avoid the case where the count of a word is 0. This was done by including two hyperparameters: $m$ and $p\_hat$. Using these, $P(word_i|C)$ was computed as follows:
@@ -279,11 +279,11 @@ The explanation of why prevalence leads to increased probability is the same as 
 \textbf{Part 4)}\\
 In order to formulate this as a logistic regression classification problem, first the input vector $v\,\epsilon\, n\,x\,m$ (for $m$ headlines and $n$ inputs) was set up such that $v[k][z]=1$ when word $k$ appeared in headline $z$, else the value was 0.\\
 
-As before, the headlines were cleaned up such that they became arrays of words, with spaces and newline characters removed. Some code from project 2 was reused. The inputs consisted off the words in the \textit{training set} only, since words which the classifier has never seen before cannot be used in any meaningful way. The output of the classifier is $y\,\epsilon\, 2\,x\,m$, such that $y[0][k]=1$ and $y[1][k]=0$ for a real headline, and the reverse for a fake one. In other words, it employs one-hot encoding. When an input is fed into the classifier, the index whose value is closest to 1 is taken as the classifier's guess.\\
+As before, the headlines were cleaned up such that they became arrays of words, with spaces and newline characters removed. Some code from project 2 was reused. The inputs consisted of the words in the \textit{training set} only, since words which the classifier has never seen before cannot be used in any meaningful way. The output of the classifier is $y\,\epsilon\, 2\,x\,m$, such that $y[0][k]=1$ and $y[1][k]=0$ for a real headline, and the reverse for a fake one. In other words, it employs one-hot encoding. When an input is fed into the classifier, the index whose value is closest to 1 is taken as the classifier's guess.\\
 
 For the gradient descent, alpha was 0.001, lambda was 0.8, and MAX\_ITERS was 10 000. As recommended on piazza, L2 regularization was used. It is noted that the value of lambda did not seem to significantly affect the performance. In order to tune lambda, the validation set was used. The lambda which led to the best classifier was chosen to be the optimal one. The optimizer started at lambda=0.1, ended at lambda=10, and increased by iterations of 0.1. Figure 1 displays the performance on the training and validation sets for lambda=10. Furthermore, the optimal alpha was higher than it was in the previous project.\\
 
-Finally, as seen in Figure 2, the performance on the validation set seemed to peak at 75\%. This value seemed unexpectedly low, although regardless of the parameters of the algorithm the performance could never increase past this mark. It is also noted that the performance on the validation set seems to decline slightly even though the performance on the training set seems to continue to increase. This should be taken into consideration for the issue of overfitting; it may be preferred to end the descent after around 1000 iterations. Figure 3 displays the learning curves for MAX\_ITERS=1100.
+Finally, as seen in Figure 2, the performance on the validation set seemed to peak at 75\%. This value seemed unexpectedly low, although regardless of the parameters of the algorithm the performance could never increase past this mark. It is also noted that the performance on the validation set seemed to decline slightly even though the performance on the training set seemed to continue to increase. This should be taken into consideration for the issue of overfitting; it may be preferred to end the descent after around 1000 iterations. Figure 3 displays the learning curves for MAX\_ITERS=1100.
 
 \begin{center}
 \includegraphics[width=13cm, height=8cm]{latex_images/part4_lambda10.png} 
@@ -315,29 +315,7 @@ $$(w_0^{(1)}-w_0^{(2)})+(w_1^{(1)}-w_1^{(2)})x_1+...+(w_k^{(1)}-w_k^{(2)})x_k=\t
 By observation, it is deduced that $\theta_j=(w_j^{(1)}-w_j^{(2)})$ and $I_j(x)=x_j$. This inequality must hold for classification as $y=1$, and must not hold for classification as $y=0$.\\
 
 \textit{Naive Bayes:}\\
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-
-
-
-
-
-
-
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! FINISH THIS PART !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-
-
-
-
-
-
-
-
-
-
-\\\\
 \textbf{Part 6)}
 \textit{It is assumed that $\theta$ in the context of this question refers to the same $\theta$ that was derived in part 5.\\\\a)} It is noted that $\theta$ was defined based on classifying an input as real news. The top 10 largest values of $\theta$ are:\\\\
 2.21237425, 1.89837329, 1.62553059, 1.42992295, 1.39639204, 1.38342583, 1.30766623, 1.2977954,  1.27815396, 1.22090128\\
@@ -379,13 +357,47 @@ To show the relationship between $max\_depth$ and the performance, the value of 
 \includegraphics[width=13cm, height=8cm]{latex_images/part7_max_depths_const_numfeat.png} 
 \captionof{figure}{Percent Classification for varying max\_depth sizes for max\_features=0.6}
 \end{center}
-\textit{b)} The first two layers are shown in Figure 5, which was created by using graphviz. It is seen that the way these layers were generated were of the form $word\leq 0.5$. Since the input values were integers corresponding to the number of occurrences of that particular word, this inequality represents testing whether or not the listed word is present in the headline. The True branches mean that the word is not present, and the False branches mean that the word is present. Thus, all left branches mean the word is not present, and all right branches mean the word is present.\\
+\textit{b)} The first two layers are shown in Figure 5, which was created by using graphviz. It is seen that the way these layers were generated were of the form $word\leq 0.5$. Since the input values were integers, this inequality represents testing whether or not the listed word is present in the headline. The True branches mean that the word is not present, and the False branches mean that the word is present. Thus, all left branches mean the word is not present, and all right branches mean the word is present.\\
 
 Looking back to part 3(a), the word 'the' also appears in the list of words whose presence predict fake news. The words 'trumps' and 'on' both appear in the list of words whose presence predict real news.\\
 
 Then, looking back to part 6(a), it is seen that 'hillary' appears in the list of words for most negative $\theta$ values, and the word 'trumps' appears in the list of words for largest $\theta$ values.
 \includegraphics[width=16cm, height=8cm]{latex_images/part7_b.PNG}
-\captionof{figure}{First two layers of the tuned decision tree}
+\captionof{figure}{First two layers of the tuned decision tree}\\\\
 
+
+\textbf{Part 8)}\\
+\textit{a)} It is first noted that the Naive Bayes assumption applies here, specifically that Y and $x_i$ are conditionally independent. Since this was assumed for previous parts of the project, the assumption remains for consistency. Thus,
+$$I(Y;x_i)=H(Y)-P(X=x_i)H(Y)$$
+The code for computing this is shown in Listing 2. The resulting mutual information of the word 'the' was 0.89897.
+\begin{lstlisting}[language=Python, caption=Computing Entropy and Mutual Information]
+def H(Y):
+    '''
+    This function calculates the entropy of random variable Y with two possible
+    classes. Y is an array of length #samples, with each element being 0 or 1.
+    0 corresponds to real news, 1 corresponds to fake news.
+    '''
+    totalcount=len(Y)
+
+    count0=(Y == 0).sum()
+    count1=(Y == 1).sum()
+    
+    p_0=count0/totalcount
+    p_1=count1/totalcount
+    
+    entropy = -p_0*math.log(p_0,2) - p_1*math.log(p_1,2)
+    return entropy
+    
+...
+
+    #Compute mutual information of the top word 'the'
+    wordi_index=all_words.index('the')
+    xi=x_train[:,wordi_index]
+    totalcount=len(y_train)
+
+    #H(Y)-H(Y|wordi) : (assume cond ind)
+    mi_i=H(y_train)-((xi==1).sum()/totalcount)*H(y_train)
+\end{lstlisting}
+\textit{b)} The next word that was chosen was 'trumps'. The computation for this word was exactly the same as it was for part (a), with the word 'the' changed to 'trumps'. The rationale for choosing this word was that it seemed to bear significance in the classification of headlines based on previous parts of this project. The resulting mutual information for this word was 0.94139, higher than it was for 'the'. A larger mutual information corresponds to a larger reduction in uncertainty, meaning this word had the hypothesized effect of being important to fake news classification.
 %----------------------------------------------------------------------------------------
 \end{document}
