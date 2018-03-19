@@ -371,9 +371,13 @@ After stopwords were removed, the list for large values of $\theta$ shared 'trum
 
 
 \textit{c)} \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\\\\\\\\\\\\\\For this project, the magnitude of all weights for the final logistic regression classifier were less than 1. This means that \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-\textbf{Part 7)}
-\textit{a)} A decision tree was built using DecisionTreeClassifier which is included in sklearn. The trees were trained using the same inputs as those for part 4, although the bias was removed. Two parameters were tuned for these trees, specifically the $max\_depth$ and the $max\_features$ parameters, the latter of which was used with percentage values. These parameters were tuned by iterating over 10 possible values for each of them, taking on values of \{5,10,25,50,100,150,300,500,750,1000\} and \{0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0\} respectively. The optimal parameters were $(max\_depth,max\_features)=(500,0.1)$ for the training set and $(max\_depth,max\_features)=(300,0.6)$ for the validation set.\\
+\textbf{Part 7)}\\
+\textit{a)} A decision tree was built using DecisionTreeClassifier which is included in sklearn. The trees were trained using the same inputs as those for part 4, although the bias was removed. Two parameters were tuned for these trees, specifically the $max\_depth$ and the $max\_features$ parameters, the latter of which was used with percentage values. These parameters were tuned by iterating over 10 possible values for each of them, taking on values of \{5,10,25,50,100,150,300,500,750,1000\} and \{0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0\} respectively. The optimal parameters were $(max\_depth,max\_features)=(500,0.1)$ for the training set and $(max\_depth,max\_features)=(150,0.6)$ for the validation set. For the forthcoming parts, the optimal validation set parameters are used.\\
 
-To show the relationship between $(max\_depth$ and the performance, the value of $max\_features$ was held constant; this constant was chosen to be the optimal one for the validation set ( $max\_features=0.6$) since this set is by definition to be used for tuning.
+To show the relationship between $max\_depth$ and the performance, the value of $max\_features$ was held constant; this constant was chosen to be the optimal one for the validation set ($max\_features=0.6$).\\\\
+\begin{center}
+\includegraphics[width=13cm, height=8cm]{latex_images/part7_max_depths_const_numfeat.png} 
+\captionof{figure}{Percent Classification for varying max\_depth sizes for max\_features=0.6}
+\end{center}
 %----------------------------------------------------------------------------------------
 \end{document}

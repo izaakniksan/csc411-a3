@@ -149,6 +149,12 @@ if __name__ == "__main__":
     plt.title('Decision Tree Performance for Varying max_depth')
     plt.legend()
     
+    #note: optimization seems to vary from run to run
+    depth=150 
+    feat=0.6 
+    
+    #---------------------part 7 b)---------------------------------------
+    
     '''
     import graphviz
     val_prediction=clf.predict(x_val)
