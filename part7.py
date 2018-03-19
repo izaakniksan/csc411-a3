@@ -10,7 +10,7 @@ from numpy import *
 import matplotlib.pyplot as plt
 import part4 as p4
 from sklearn import tree
-from mpl_toolkits.mplot3d import Axes3D
+
 
 
 #Note: credit to graphviz for plotting the decision trees. The code for plotting
@@ -151,20 +151,18 @@ if __name__ == "__main__":
     feat=0.6 
     
     #---------------------part 7 b)---------------------------------------
-    
-    #The code below is used to generate a pdf of the decision tree
-    import graphviz
     clf = tree.DecisionTreeClassifier(max_depth=depth,max_features=feat)
     clf = clf.fit(x_train, y_train)
+    with open('optimal_tree.pickle', 'wb') as handle:
+        pickle.dump(clf, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    '''
+    #The code below is used to generate a pdf of the decision tree
+    import graphviz
     
     dot_data = tree.export_graphviz(clf,class_names=['Real','Fake'], feature_names=all_words,out_file=None) 
     graph = graphviz.Source(dot_data) 
     graph.render("p7b_2layers")
-    
+    '''
     #Then, the pdf was manually cropped to isolate the first 2 layers
-    
-    
-    
-    
     
     print('*** Part 7 finished ***')
