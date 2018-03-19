@@ -233,26 +233,7 @@ if __name__ == "__main__":
         y_val[i][1]=1 #fake
         
     y_val=y_val.T
-    
-    #Now create testset
-    testset=append(real_test_lines,fake_test_lines)
-    
-    #Make arrays of words for testset
-    testset_words=[]
-    for i in range(0,len(testset)):
-        testset_words.append(clean_headline(testset[i],trainingset))
-    #note: the testset uses the trainingset here since we need to make sure
-    #all words in the testset can be fed into the model
-        
-    #Create output vector y for testset
-    y_test=zeros((len(testset_words),2))
-    for i in range(0,len(real_test_lines)):
-        y_test[i][0]=1 #real
-    for i in range(len(real_test_lines),len(testset_words)):
-        y_test[i][1]=1 #fake
-    
-    y_test=y_test.T
-    
+
 #-------------RUN GRADIENT DESCENT----------------
     
 #   w is nxj=nx2
@@ -265,6 +246,9 @@ if __name__ == "__main__":
     with open('part_4_w.pickle', 'wb') as handle:
         pickle.dump(optimal_w, handle, protocol=pickle.HIGHEST_PROTOCOL)
 #----------------------PLOT-----------------------
+        
+        
+    
     print('plotting learning curves')
     plt.plot(iteration_array,performance_array, label='Training')
     plt.plot(iteration_array,val_performance_array,label='Validation')
@@ -272,7 +256,8 @@ if __name__ == "__main__":
     plt.xlabel('Iterations')
     plt.title('Gradient Descent Learning Curve')
     plt.legend()
-            
+           
+    
     print('*** part 4 finished ***\n')
         
         

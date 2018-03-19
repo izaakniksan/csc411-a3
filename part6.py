@@ -8,8 +8,8 @@ from math import *
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 import torch 
 from numpy import *
-from torch.autograd import Variable
 import matplotlib.pyplot as plt
+from torch.autograd import Variable
 
 if __name__ == "__main__":
     print('*** Part 6 running ***')
