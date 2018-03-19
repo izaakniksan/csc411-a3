@@ -10,6 +10,7 @@ from numpy import *
 import matplotlib.pyplot as plt
 import part4 as p4
 from sklearn import tree
+from mpl_toolkits.mplot3d import Axes3D
 
 
 #Note: credit to graphviz for plotting the decision trees. The code for plotting
@@ -93,10 +94,61 @@ if __name__ == "__main__":
         y_val[i]=1 #fake
         
 #--------------------CREATE AND TRAIN DECISION TREE------------------------
+    #defaults:
     clf = tree.DecisionTreeClassifier()
     clf = clf.fit(x_train, y_train)
     
-    depths=[1,2,5,10,20,40,75,120,200,500]
+    #training:
+    depths=[5,10,25,50,100,150,300,500,750,1000] #values for max_depth
+    max_feat_perc=[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0] # % values for max_features
+    train_performance=zeros((len(depths),len(max_feat_perc)))
+    val_performance=train_performance.copy()
+    index1=0
+    index2=0
+    print('optimization about to start')
+    for depth in depths:
+        index2=0
+        for percent in max_feat_perc:
+                #create the tree for these parameters:
+                clf = tree.DecisionTreeClassifier(max_depth=depth,max_features=percent)
+                clf = clf.fit(x_train, y_train)
+                
+                #performance on training set:
+                predict=clf.predict(x_train)
+                for i in range(0,len(x_train)):
+                    if y_train[i]==predict[i]:
+                        train_performance[index1][index2]=train_performance[index1][index2]+1
+                        
+                #performance on validation set:
+                predict=clf.predict(x_val)
+                for i in range(0,len(x_val)):
+                    if y_val[i]==predict[i]:
+                        val_performance[index1][index2]=val_performance[index1][index2]+1
+                index2=index2+1
+        index1=index1+1
+        print(index1*10,'% finished optimizing')
+    
+    
+    max_train_perf=unravel_index(argmax(train_performance, axis=None), train_performance.shape)
+    print('\nOptimal Training Set Parameters:')
+    print('max_depth: ',depths[max_train_perf[0]],'percentage: ',max_feat_perc[max_train_perf[1]]*100)
+    
+    max_val_perf=unravel_index(argmax(val_performance, axis=None), val_performance.shape)
+    print('Optimal Validation Set Parameters:')
+    print('max_depth: ',depths[max_val_perf[0]],'percentage: ',max_feat_perc[max_val_perf[1]]*100)
+    
+    #Now plot performance for training and validation sets for varying max_depths
+    #and a constant number of max features (chosen to be the optimal one for the
+    #VALIDATION SET)
+    train_norm=len(x_train[:,0])
+    val_norm=len(x_val[:,0])
+    plt.plot(depths,train_performance[:,max_val_perf[1]]/train_norm, label='Training')
+    plt.plot(depths,val_performance[:,max_val_perf[1]]/val_norm,label='Validation')
+    plt.ylabel('% Correctly Classified')
+    plt.xlabel('max_depth')
+    plt.title('Decision Tree Performance for Varying max_depth')
+    plt.legend()
+    
     '''
     import graphviz
     val_prediction=clf.predict(x_val)
