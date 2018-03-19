@@ -94,10 +94,7 @@ if __name__ == "__main__":
         y_val[i]=1 #fake
         
 #--------------------CREATE AND TRAIN DECISION TREE------------------------
-    #defaults:
-    clf = tree.DecisionTreeClassifier()
-    clf = clf.fit(x_train, y_train)
-    
+
     #training:
     depths=[5,10,25,50,100,150,300,500,750,1000] #values for max_depth
     max_feat_perc=[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0] # % values for max_features
@@ -154,13 +151,20 @@ if __name__ == "__main__":
     feat=0.6 
     
     #---------------------part 7 b)---------------------------------------
-    
     '''
+    #The code below is used to generate a pdf of the decision tree
     import graphviz
-    val_prediction=clf.predict(x_val)
+    clf = tree.DecisionTreeClassifier(max_depth=depth,max_features=feat)
+    clf = clf.fit(x_train, y_train)
+    
     dot_data = tree.export_graphviz(clf, out_file=None) 
     graph = graphviz.Source(dot_data) 
     graph.render("p7b_2layers")
+    
+    #Then, the pdf was manually cropped to isolate the first 2 layers
     '''
+    
+    
+    
     
     print('*** Part 7 finished ***')
