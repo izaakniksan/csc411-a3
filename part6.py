@@ -11,7 +11,7 @@ from numpy import *
 import matplotlib.pyplot as plt
 from torch.autograd import Variable
 
-if __name__ == "__main__":
+def main():
     print('*** Part 6 running ***')
     print('importing workspace')
     with open('real_train.pickle', 'rb') as handle:
@@ -101,4 +101,6 @@ if __name__ == "__main__":
     print('the 10 most negative values of theta are: ',theta[ind],'\n')
     print('the words corresponding to the 10 most negative values are: ',[words_nostop[i] for i in ind],'\n')
     print('*** part 6 finished ***\n')
-        
+
+if __name__ == "__main__":
+    main()

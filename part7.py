@@ -11,12 +11,7 @@ import matplotlib.pyplot as plt
 import part4 as p4
 from sklearn import tree
 
-
-
-#Note: credit to graphviz for plotting the decision trees. The code for plotting
-#them is commented out since it is not installed in the cs teaching lab.
-
-if __name__ == "__main__":
+def main():
     print('*** Part 7 running ***')
     
     with open('real_train.pickle', 'rb') as handle:
@@ -166,3 +161,9 @@ if __name__ == "__main__":
     #Then, the pdf was manually cropped to isolate the first 2 layers
     
     print('*** Part 7 finished ***')
+
+#Note: credit to graphviz for plotting the decision trees. The code for plotting
+#them is commented out since it is not installed in the cs teaching lab.
+
+if __name__ == "__main__":
+    main()

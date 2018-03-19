@@ -70,7 +70,7 @@ def naive_bayes_istrue(headline,real,fake,real_count,fake_count,m,p_hat):
     else:
         return True
 
-if __name__ == "__main__":
+def main():
     print('*** part 2 running ***')
     with open('real_train.pickle', 'rb') as handle:
         real_train = pickle.load(handle)  
@@ -153,6 +153,9 @@ if __name__ == "__main__":
     test_performance=performance/(len(real_test_lines)+len(fake_test_lines))
     print('test performance: ', test_performance)
     print('*** part 2 finished ***\n')
+
+if __name__ == "__main__":
+    main()
     
 
     

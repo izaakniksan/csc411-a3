@@ -28,19 +28,7 @@ def H(Y):
     entropy = -p_0*math.log(p_0,2) - p_1*math.log(p_1,2)
     return entropy
 
-#def mutual_information(Y,x,H):
-#    '''
-#    This function computes the mutual information of x (#samples,1) which
-#    is a chosen feature, and Y. Y is defined the same way as it was for H(Y)
-#    '''
-#    totalcount=len(Y)
-#    
-#    HYX=x.sum() #number of times wordi appears over all samples
-#    HYX= -HYX*((Y == 0).sum()/totalcount)
-#    return 0
-#    return H(Y)-HYX
-
-if __name__ == "__main__":
+def main():
     print('*** Part 8 running ***')
     
     with open('real_train.pickle', 'rb') as handle:
@@ -76,6 +64,9 @@ if __name__ == "__main__":
         clf = pickle.load(handle)
         
 #--------------------CREATE SETS,INPUTS,OUTPUTS-------------------------
+    all_words=[]
+    [all_words.append(word) for word in real_train.keys()]
+    
     print('creating network inputs')
     #First create trainingset
     trainingset=append(real_train_lines,fake_train_lines)
@@ -137,3 +128,18 @@ if __name__ == "__main__":
     print('mutual information for "trumps" is ',mi_j)
     print('*** Part 8 Finished ***\n')
     print('Project 3 Completed!')
+
+#def mutual_information(Y,x,H):
+#    '''
+#    This function computes the mutual information of x (#samples,1) which
+#    is a chosen feature, and Y. Y is defined the same way as it was for H(Y)
+#    '''
+#    totalcount=len(Y)
+#    
+#    HYX=x.sum() #number of times wordi appears over all samples
+#    HYX= -HYX*((Y == 0).sum()/totalcount)
+#    return 0
+#    return H(Y)-HYX
+
+if __name__ == "__main__":
+    main()

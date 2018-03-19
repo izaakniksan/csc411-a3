@@ -315,7 +315,22 @@ $$(w_0^{(1)}-w_0^{(2)})+(w_1^{(1)}-w_1^{(2)})x_1+...+(w_k^{(1)}-w_k^{(2)})x_k=\t
 By observation, it is deduced that $\theta_j=(w_j^{(1)}-w_j^{(2)})$ and $I_j(x)=x_j$. This inequality must hold for classification as $y=1$, and must not hold for classification as $y=0$.\\
 
 \textit{Naive Bayes:}\\
+Again, the probability of headline being of class y=1 is
+$$P(y=1|headline)=\frac{P(headline|y=1)P(y=1)}{P(headline)}$$
+and this expression must be larger than 0.5 in order to choose to classify this headline as the class y=1. Simplifying this inequality:
+$$\frac{P(headline|y=1)P(y=1)}{P(headline)}>0.5$$
 
+$$P(headline|y=1)P(y=1)>0.5\cdot P(headline)$$
+
+Then, taking the log of both sides:
+
+$$log(P(headline|y=1)P(y=1))>log(0.5\cdot P(headline))$$
+
+By conditional independence:
+$$log(\Pi_i P(word_i|y=1)P(y=1))>log(0.5\cdot P(headline))$$
+$$log(P(y=1))+\sum_i log(P(word_i|y=1))=\theta_0+\theta_1I_1(x)+...+\theta_k I_k(x)>log(0.5\cdot P(headline))$$
+
+By inspection, $\theta_0=log(P(y=1))$, $\theta_{i\neq0}=1$, and $I_i(x)=I_i(word_i)=log(P(word_i|y=1))$\\\\
 \textbf{Part 6)}
 \textit{It is assumed that $\theta$ in the context of this question refers to the same $\theta$ that was derived in part 5.\\\\a)} It is noted that $\theta$ was defined based on classifying an input as real news. The top 10 largest values of $\theta$ are:\\\\
 2.21237425, 1.89837329, 1.62553059, 1.42992295, 1.39639204, 1.38342583, 1.30766623, 1.2977954,  1.27815396, 1.22090128\\
@@ -329,7 +344,7 @@ The top 10 most negative values of $\theta$ are:\\\\
 These correspond to the following words:\\\\
 'hillary', 'u', 'voting', 'if', 'just', 'is', 'kill', 'wins', '4', 'voter'\\
 
-The first list of words, corresponding to large values of $\theta$, has the word 'trumps' in common with the list of words which most strongly predicts real news. However, the rest of the words are unique. It is noted that many words in the lists in part 3 (a) are stopwords; the lists in this part on the other hand contain very few.
+The first list of words, corresponding to large values of $\theta$, has the word 'trumps' in common with the list of words which most strongly predicts real news. However, the rest of the words are unique. It is noted that many words in the lists in part 3 (a) are stopwords; the lists in this part on the other hand contain very few.\\
 
 
 \textit{b)}
@@ -337,18 +352,18 @@ In this part, stopwords have been removed. The top 10 largest values of $\theta$
 2.21237425, 1.89837329, 1.62553059, 1.42992295, 1.39639204, 1.38342583, 1.30766623, 1.2977954,  1.27815396, 1.22090128\\
  
  These correspond to the following words:\\\\
- 'trumps', 'korea', 'north', 'turnbull', 'trade', 'ban', 'east', 'travel', 'tax', 'australia'
+ 'trumps', 'korea', 'north', 'turnbull', 'trade', 'ban', 'east', 'travel', 'tax', 'australia'\\
  
  The top 10 most negative values of $\theta$ are:\\\\
  -2.49557114, -1.65760892, -1.56222629, -1.49412982, -1.45115002, -1.43763763, -1.41043447, -1.40070633, -1.38123331, -1.31561228\\
  
  These correspond to the following words:\\\\
- 'hillary', 'u', 'voting', 'just', 'kill', 'wins', '4', 'star', 'voter', 'fame'
+ 'hillary', 'u', 'voting', 'just', 'kill', 'wins', '4', 'star', 'voter', 'fame'\\
  
-After stopwords were removed, the list for large values of $\theta$ shared 'trumps', 'korea', 'north', and 'ban' with the list of words which most strongly predicted real news. The list of large negative values of $\theta$ shared 'hillary' and 'just' with the list of words which most strongly predicted fake news.
+After stopwords were removed, the list for large values of $\theta$ shared 'trumps', 'korea', 'north', and 'ban' with the list of words which most strongly predicted real news. The list of large negative values of $\theta$ shared 'hillary' and 'just' with the list of words which most strongly predicted fake news.\\
 
 
-\textit{c)} \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\\\\\\\\\\\\\\For this project, the magnitude of all weights for the final logistic regression classifier were less than 1. This means that \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\textit{c)} For this project, values of all inputs were binary, either being 1 if the word appears in the headline and 0 otherwise. Thus, since this normalization is present, it makes sense to use the magnitudes of the weights as indications of importance. Here, no weight could ever be multiplied by an unexpectedly large coefficient arising for example from a very large $x_i$ relative to the other inputs. Another example of when this issue may arise is in image classification. An example was discussed in class where images of tanks were analyzed for military research; however, the input images were not normalized by brightness and thus the results were affected by how cloudy it was when the images were taken.\\\\
 \textbf{Part 7)}\\
 \textit{a)} A decision tree was built using DecisionTreeClassifier which is included in sklearn. The trees were trained using the same inputs as those for part 4, although the bias was removed. Two parameters were tuned for these trees, specifically the $max\_depth$ and the $max\_features$ parameters, the latter of which was used with percentage values. These parameters were tuned by iterating over 10 possible values for each of them, taking on values of \{5,10,25,50,100,150,300,500,750,1000\} and \{0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0\} respectively. The optimal parameters were $(max\_depth,max\_features)=(500,0.1)$ for the training set and $(max\_depth,max\_features)=(150,0.6)$ for the validation set. For the forthcoming parts, the optimal validation set parameters are used.\\
 
@@ -365,7 +380,14 @@ Then, looking back to part 6(a), it is seen that 'hillary' appears in the list o
 \includegraphics[width=16cm, height=8cm]{latex_images/part7_b.PNG}
 \captionof{figure}{First two layers of the tuned decision tree}\\\\
 
+\textit{c)}  In the lecture slides for SVM and Kernels, overfitting was formally defined as being able to find a $\theta_0'$ such that
 
+$$TrainPerformance(\theta_0')<TrainPerformance(\theta_0)$$
+$$Performance(\theta_0')<Performance(\theta_0)$$
+
+Thus, to determine which overfit the most, the ratio of \textit{TrainPerformance} to \textit{Performance (ie. the performance on all the data including the training set)} was taken; as per the above definition, more overfitting would correspond to a larger value for this ratio. It was determined that the Naive Bayes classifier overfit the most.\\
+
+The classifier which performed the best was the Naive Bayes classifier, and the worst was the Decision Tree Classifier. The methodology in determining performance here was the percentage of correct classification on the test set, since this set was never seen during the training of the models.\\\\
 \textbf{Part 8)}\\
 \textit{a)} It is first noted that the Naive Bayes assumption applies here, specifically that Y and $x_i$ are conditionally independent. Since this was assumed for previous parts of the project, the assumption remains for consistency. Thus,
 $$I(Y;x_i)=H(Y)-P(X=x_i)H(Y)$$
@@ -395,7 +417,6 @@ def H(Y):
     xi=x_train[:,wordi_index]
     totalcount=len(y_train)
 
-    #H(Y)-H(Y|wordi) : (assume cond ind)
     mi_i=H(y_train)-((xi==1).sum()/totalcount)*H(y_train)
 \end{lstlisting}
 \textit{b)} The next word that was chosen was 'trumps'. The computation for this word was exactly the same as it was for part (a), with the word 'the' changed to 'trumps'. The rationale for choosing this word was that it seemed to bear significance in the classification of headlines based on previous parts of this project. The resulting mutual information for this word was 0.94139, higher than it was for 'the'. A larger mutual information corresponds to a larger reduction in uncertainty, meaning this word had the hypothesized effect of being important to fake news classification.

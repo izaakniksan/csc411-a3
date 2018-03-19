@@ -107,10 +107,10 @@ def grad_descent_curves(vector_grad,logcost, softmax,v, y, v_val,y_val, init_w, 
                 #then compute p:
                 temp_p = exp(temp_o)/tile(sum(exp(temp_o),0), (len(temp_o),1)) #softmax
                 temp_perf=0
-                for k in range(0,len(y_train[0,:])):
-                    if argmax(y_train[:,k])==argmax(temp_p[:,k]):
+                for k in range(0,len(y[0,:])):
+                    if argmax(y[:,k])==argmax(temp_p[:,k]):
                         temp_perf=temp_perf+1
-                temp_perf=100*temp_perf/len(y_train[0,:])
+                temp_perf=100*temp_perf/len(y[0,:])
                 performance_array[0]=temp_perf
                
 
@@ -132,10 +132,10 @@ def grad_descent_curves(vector_grad,logcost, softmax,v, y, v_val,y_val, init_w, 
                 #then compute p:
                 temp_p = exp(temp_o)/tile(sum(exp(temp_o),0), (len(temp_o),1)) #softmax
                 temp_perf=0
-                for k in range(0,len(y_train[0,:])):
-                    if argmax(y_train[:,k])==argmax(temp_p[:,k]):
+                for k in range(0,len(y[0,:])):
+                    if argmax(y[:,k])==argmax(temp_p[:,k]):
                         temp_perf=temp_perf+1
-                temp_perf=100*temp_perf/len(y_train[0,:])
+                temp_perf=100*temp_perf/len(y[0,:])
                 performance_array=append(performance_array,temp_perf)
                 
                 temp_o = dot(w.T, v_val) #o
@@ -152,7 +152,7 @@ def grad_descent_curves(vector_grad,logcost, softmax,v, y, v_val,y_val, init_w, 
         iter += 1
     return w,iteration_array,performance_array, val_performance_array
 
-if __name__ == "__main__":
+def main():
     print('*** Part 4 running ***')
     
     with open('real_train.pickle', 'rb') as handle:
@@ -246,9 +246,7 @@ if __name__ == "__main__":
     with open('part_4_w.pickle', 'wb') as handle:
         pickle.dump(optimal_w, handle, protocol=pickle.HIGHEST_PROTOCOL)
 #----------------------PLOT-----------------------
-        
-        
-    
+
     print('plotting learning curves')
     plt.plot(iteration_array,performance_array, label='Training')
     plt.plot(iteration_array,val_performance_array,label='Validation')
@@ -259,5 +257,6 @@ if __name__ == "__main__":
            
     
     print('*** part 4 finished ***\n')
-        
-        
+    
+if __name__ == "__main__":
+    main()
