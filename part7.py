@@ -151,18 +151,18 @@ if __name__ == "__main__":
     feat=0.6 
     
     #---------------------part 7 b)---------------------------------------
-    '''
+    
     #The code below is used to generate a pdf of the decision tree
     import graphviz
     clf = tree.DecisionTreeClassifier(max_depth=depth,max_features=feat)
     clf = clf.fit(x_train, y_train)
     
-    dot_data = tree.export_graphviz(clf, out_file=None) 
+    dot_data = tree.export_graphviz(clf,class_names=['Real','Fake'], feature_names=all_words,out_file=None) 
     graph = graphviz.Source(dot_data) 
     graph.render("p7b_2layers")
     
     #Then, the pdf was manually cropped to isolate the first 2 layers
-    '''
+    
     
     
     

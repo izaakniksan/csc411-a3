@@ -379,9 +379,13 @@ To show the relationship between $max\_depth$ and the performance, the value of 
 \includegraphics[width=13cm, height=8cm]{latex_images/part7_max_depths_const_numfeat.png} 
 \captionof{figure}{Percent Classification for varying max\_depth sizes for max\_features=0.6}
 \end{center}
-\textit{b)} \\
-\includegraphics[width=16cm, height=8cm]{latex_images/part7_b.PNG} 
-\captionof{figure}{}
+\textit{b)} The first two layers are shown in Figure 5, which was created by using graphviz. It is seen that the way these layers were generated were of the form $word\leq 0.5$. Since the input values were integers corresponding to the number of occurrences of that particular word, this inequality represents testing whether or not the listed word is present in the headline. The True branches mean that the word is not present, and the False branches mean that the word is present. Thus, all left branches mean the word is not present, and all right branches mean the word is present.\\
+
+Looking back to part 3(a), the word 'the' also appears in the list of words whose presence predict fake news. The words 'trumps' and 'on' both appear in the list of words whose presence predict real news.\\
+
+Then, looking back to part 6(a), it is seen that 'hillary' appears in the list of words for most negative $\theta$ values, and the word 'trumps' appears in the list of words for largest $\theta$ values.
+\includegraphics[width=16cm, height=8cm]{latex_images/part7_b.PNG}
+\captionof{figure}{First two layers of the tuned decision tree}
 
 %----------------------------------------------------------------------------------------
 \end{document}
