@@ -267,7 +267,9 @@ The 10 words whose presence most strongly predicts that the news is fake are: \t
 
 The 10 words whose absence most strongly predicts that the news is fake are: \textit{avocado, grattan, date, jennett, backwards, jordan, vow, personnel, industrials,} and \textit{denuclearisation}.\\\\
 \textit{b)} \textit{*It is assumed that this question is asking for the words whose presence most affects the probability*}\\
+
 The 10 non-stopwords whose presence most strongly predicts that the news is real are: \textit{trump, donald, trumps, says, north, korea, election, clinton, ban,} and \textit{president}.\\
+
 The 10 non-stopwords whose presence most strongly predicts that the news is fake are: \textit{trump, donald, hillary, clinton, election, just, president, new, america,} and \textit{obama}.\\
 
 The explanation of why prevalence leads to increased probability is the same as what was described in part a).\\
@@ -349,10 +351,11 @@ The top 10 most negative values of $\theta$ are:\\\\
 These correspond to the following words:\\\\
 'hillary', 'u', 'voting', 'if', 'just', 'is', 'kill', 'wins', '4', 'star'\\
 
-Referencing part 3(a), it is seen that 'pedo' appears both in the list corresponding to the most negeative values as well as the list of words whose absence most strongly predicts real news.
+The first list of words, corresponding to large values of $\theta$, has the word 'trumps' in common with the list of words which most strongly predicts real news. However, the rest of the words are unique. It is noted that many words in the lists in part 3 (a) are stopwords; the lists in this part on the other hand contain very few.
+
 
 \textit{b)}
-The top 10 largest values of $\theta$ are:\\\\
+In this part, stopwords have been removed. The top 10 largest values of $\theta$ are:\\\\
 2.21237425, 1.89837329, 1.62553059, 1.42992295, 1.39639204, 1.38342583, 1.30766623, 1.2977954,  1.27815396, 1.22090128\\
  
  These correspond to the following words:\\\\
@@ -363,5 +366,7 @@ The top 10 largest values of $\theta$ are:\\\\
  
  These correspond to the following words:\\\\
  'hillary', 'u', 'voting', 'just', 'kill', 'wins', '4', 'star', 'voter', 'fame'
+ 
+After stopwords were removed, the list for large values of $\theta$ shared 'trumps', 'korea', 'north', and 'ban' with the list of words which most strongly predicted real news. The list of large negative values of $\theta$ shared 'hillary' and 'just' with the list of words which most strongly predicted fake news.
 %----------------------------------------------------------------------------------------
 \end{document}
